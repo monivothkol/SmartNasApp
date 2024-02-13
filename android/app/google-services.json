@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "129871381422",
+    "project_id": "smartnasreact",
+    "storage_bucket": "smartnasreact.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129871381422:android:bc9fc8c20e917b58623e3f",
+        "android_client_info": {
+          "package_name": "com.smartnas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuVtZ-7ozJ13tTR7WUm-uqofp49yDXqMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
