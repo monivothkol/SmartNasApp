@@ -29,7 +29,7 @@ export const SubmitBtn = ({onPress} : {onPress: any}) => {
   return(
   <TouchableOpacity style={[styles.loginBtn]}
   onPress={onPress} >
-    <Text>Submit</Text>
+    <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold', padding: 5}}>Submit</Text>
   </TouchableOpacity>)
 };
 
@@ -44,10 +44,10 @@ export const OTPInput = ()=> {
     const newOTP = [...OTP];
     newOTP[index] = text;
     setOTP(newOTP.join(''));
-    if(text.length !==0 ) {
-        return OTPRef?.current[index+1]?.focus()
-      }
-      return OTPRef?.current[index-1]?.focus()
+    if (text.length !== 0) {
+      return OTPRef.current[index + 1]?.focus();
+    }
+    return OTPRef.current[index - 1]?.focus();
   };
   const navigation = useNavigation<HomeScreenNavigationProps>();
   const handleBackspace  = (index: number) => {
@@ -59,33 +59,32 @@ export const OTPInput = ()=> {
   }, [OTP]);
 
   return (
-    <>
+<>
+      <View>
         <View>
-          <View>
-
           <View style={styles.OTPContainer}>
             {[...Array(6)].map((item, index) => (
               <TextInput
-              ref={refT=> {
-                if(refT && !OTPRef.current.includes(refT)){
-                  OTPRef.current = [...OTPRef.current, refT]
-                }
-              }}
+                ref={(refT) => {
+                  if (refT) {
+                    OTPRef.current[index] = refT;
+                  }
+                }}
                 key={index}
                 style={styles.OTPInput}
                 maxLength={1}
                 contextMenuHidden
                 selectTextOnFocus
                 keyboardType="decimal-pad"
-                onChangeText={text=>{handleChangeText(text, index)}}
-                onKeyPress={() => handleBackspace(index)}
+                onChangeText={(text) => {
+                  handleChangeText(text, index);
+                }}
+                onSubmitEditing={() => handleBackspace(index)}
               />
             ))}
           </View>
-          </View>
-          
-          
-    </View>
+        </View>
+      </View>
     </>
   );
 };
@@ -101,7 +100,6 @@ const LoginScreen = () => {
   
   const handleInputChange = (text: string) => {
     setNumber(text);
-
     //console.log(phonenumberInput);
   };
   useEffect(() => {
@@ -142,7 +140,7 @@ const styles = StyleSheet.create({
     width: '94%',
     marginLeft: '3%',
     marginBottom: 30,
-    marginTop: 30,
+    marginTop: 15,
     flexDirection: 'row',
   },
   OTPInput: {
@@ -164,10 +162,11 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
   },
   loginBtn: {
-    width: '100%',
-    marginTop: 10,
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
     height: 50,
-    backgroundColor: 'grey',
+    backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
   },

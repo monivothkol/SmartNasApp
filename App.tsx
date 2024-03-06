@@ -19,11 +19,11 @@ import {
 } from 'react-native';
 
 import HomepageScreen from './src/screen/homepage_screen';
-import Login from './src/screen/login_screen'
+import Login from './src/screen/login_screen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { HomeStackNavigationParamList } from './type';
+import {HomeStackNavigationParamList} from './type';
 import HomepagePlanSection from './src/component/home_userPlanDetail';
 import LoginOTP from './src/screen/login_screen';
 import MenuScreen from './src/screen/menu_screen';
@@ -36,25 +36,33 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen 
-         name="Login"
-         component={LoginOTP}
-         options={{headerShown: false}}/>
+        <Stack.Screen
+          name="Login"
+          component={LoginOTP}
+          options={{headerShown: false, animation: 'none'}}
+        />
         <Stack.Screen
           name="Home"
           component={HomepageScreen}
-          options={{headerShown: false}}
+          options={{
+            headerShown: false,
+            animation: 'none',
+          }}
         />
         <Stack.Screen
           name="Menu"
           component={MenuScreen}
-          options={{headerShown: false}}
+          options={{
+            headerShown: false, 
+            animation: 'none'}}
         />
 
         <Stack.Screen
           name="History"
           component={HistoryScreen}
-          options={{headerShown: false}}
+          options={{
+            headerShown: false, 
+            animation: 'none'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

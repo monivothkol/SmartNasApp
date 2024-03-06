@@ -5,26 +5,29 @@ import {
     SafeAreaView,
     TouchableOpacity,
     Image,
-    StyleSheet
+    StyleSheet,
+
   
   } from 'react-native';
-
+  import Progressbar from '../component/progressbar';
 type Benefit = {
     name: string;
-    amount: number;
+    type: string
+    amount?: number;
+    Maxamount: number
   };
 
-const BenefitDisplay = ({name, amount}: Benefit) => {
+const BenefitDisplay = ({name, type ,amount, Maxamount}: Benefit) => {
     return (
       <View>
         <View style={styleSheet.benefitResource}>
           <View style={styleSheet.benefitDetail}>
             <Text style={{flex: 1, color: 'black'}}>{name}</Text>
-            <Text style={{color: 'green', fontWeight: 'bold'}}>{amount}SMS</Text>
-            <Text>/60SMS</Text>
+            <Text style={{color: 'green', fontWeight: 'bold'}}>{amount}{type}</Text>
+            <Text>/{Maxamount}{type}</Text>
           </View>
           <View>
-            <Text>bar .............................. </Text>
+            <Progressbar value={amount} max={Maxamount}/>
           </View>
         </View>
       </View>
@@ -74,9 +77,9 @@ const BenefitDisplay = ({name, amount}: Benefit) => {
           />
   
           <View>
-            <BenefitDisplay name={benefitName1} amount={10} />
-            <BenefitDisplay name={benefitName2} amount={10} />
-            <BenefitDisplay name={benefitName3} amount={10} />
+            <BenefitDisplay name={benefitName1} type={'SMS'} amount={20} Maxamount={60} />
+            <BenefitDisplay name={benefitName2} type={'Min'} amount={20+6} Maxamount={60} />
+            <BenefitDisplay name={benefitName3} type={'GB'}amount={20-5} Maxamount={60} />
           </View>
           <TouchableOpacity
             activeOpacity={1}

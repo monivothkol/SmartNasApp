@@ -10,7 +10,7 @@ import {
 
 const Header = ({phonenumber, lastname}:{ phonenumber: string, lastname: string }) => {
     return (
-      <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: 'green'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <TouchableOpacity style={styleSheet.headerLeft}>
           <View style={{paddingRight: 10}}>
             <Image source={require('../../Asset/iCon/profile_holder.png')} />

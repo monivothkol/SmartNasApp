@@ -13,7 +13,7 @@ apiKey: "AIzaSyBeeJ19mGbfyLSn5bBuZXA4bGqwPyHlpNc",
   measurementId: "G-7LJR63L63T"
 }
 
-auth().settings.appVerificationDisabledForTesting = true
+//auth().settings.appVerificationDisabledForTesting = true
 initializeApp(firebaseConfig);
 
 export default () => {

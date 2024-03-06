@@ -12,6 +12,11 @@ const BottomNavBar: React.FC<HomeScreenNavigationProps> = () => {
   const HomeBtnMenu = () => {
     navigation.navigate('Menu', {number: auth().currentUser?.phoneNumber?.replace(/^\+855/, '')});
   };
+
+  const HomeBtnHome = () => {
+    navigation.navigate('Home', {number: auth().currentUser?.phoneNumber?.replace(/^\+855/, '')});
+  }
+  
   const HomeBtnHistory = () => {
     console.log('history pressed');
     navigation.navigate('History');
@@ -22,6 +27,7 @@ const BottomNavBar: React.FC<HomeScreenNavigationProps> = () => {
         iconName={'home_icon'}
         btnName="Home"
         containerStyle={styles.navItem}
+        onPress={HomeBtnHome}
       />
       <SetBtnWiCon
         iconName={'history_icon'}

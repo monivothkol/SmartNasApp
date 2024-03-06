@@ -9,15 +9,19 @@ import {Circle, Svg} from 'react-native-svg';
 const SMainBalanceSection = () => {
     const mainBalance = 10.0;
     const mainExpiry = '29.01.24';
+    const initialValidity = 8; // Initial validity
+    const currentValidity = 4; // Current validity
     const statusDescription = "You're good to go! Enjoy using Smart.";
   
-    const progressValue = 10; // Change this value as needed
+    const progressValue = (currentValidity / initialValidity) * 100;; // Change this value as needed
   
     // Calculate the coordinates for the circle
-    const radius = 40;
+    const radius = 45;
     const circumference = 2 * Math.PI * radius;
+    //const strokeDasharray = `${circumference} ${circumference}`;
     const strokeDasharray = `${circumference} ${circumference}`;
-    const strokeDashoffset = (circumference * (100 - progressValue)) / 100;
+    const strokeDashoffset = (25 / 100) * circumference; // Adjusted for partial ring
+    const progressStrokeDashoffset = (((130 - progressValue) / 125) * circumference);
   
     return (
       <View>
@@ -37,13 +41,33 @@ const SMainBalanceSection = () => {
                 cx="50"
                 cy="50"
                 r={radius}
-                stroke="#00e0ff"
+                stroke="#C0C0C0"
                 strokeWidth="7"
                 fill="transparent"
                 strokeDasharray={strokeDasharray}
                 strokeDashoffset={strokeDashoffset}
+                transform="rotate(135 50 50)"
               />
+              
+              <Circle
+                cx="50"
+                cy="50"
+                r={radius}
+                stroke="green"
+                strokeWidth="7"
+                fill="transparent"
+                strokeDasharray={strokeDasharray}
+                strokeDashoffset={progressStrokeDashoffset}
+                transform="rotate(135 50 50)"
+              />
+              <View style={{height: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                  <Text style={{fontSize: 30, color: 'green', fontWeight: 'bold'}}>{currentValidity}</Text>
+                  <Text >Day</Text>
+              </View>
+              
+
             </Svg>
+            
           </View>
         </View>
       </View>
@@ -86,8 +110,7 @@ const SMainBalanceSection = () => {
       flex: 2
     },
     mainBalanceSectionR:{
-      backgroundColor: 'yellow',
-      flex: 1
+      flex: 1,
     },
     mainBalanceText:{
       color: 'green',

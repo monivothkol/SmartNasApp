@@ -17,13 +17,9 @@ import {SetBtnWhiteBG} from '../component/setBTNwithIcon';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth'
 import { firebase } from '@react-native-firebase/auth';
-
-const onAuthStateChanged = (user) => {
-  if (!user) {
-    console.log('User signed out');
-    // Navigate to the login screen or perform other actions when the user signs out
-  }
-};
+import BottomNavBar from '../component/home_BottomNavigation';
+import { Auth } from 'firebase/auth';
+import { User } from 'firebase/auth';
 
 
 const MenuScreen: React.FC<HomeScreenNavigationProps> = ({route}) => {
@@ -33,12 +29,11 @@ const MenuScreen: React.FC<HomeScreenNavigationProps> = ({route}) => {
   const getUser = async () => {
     try {
       const response = await fetch(
-        `http://172.18.0.144:3000/smartnas/userprofile/${number}`,
+        `https://vothsmartdb.onrender.com/smartnas_db/user_profile/${number}`,
       );
       const json = await response.json();
       console.log('Fetched data:', json);
       setData(json);
-      //return json.userprofile;
     } catch (error) {
       console.error(error);
     } finally {
@@ -51,17 +46,24 @@ const MenuScreen: React.FC<HomeScreenNavigationProps> = ({route}) => {
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
     return () => {
-      unsubscribe();
+      unsubscribe(); 
     };
   }, []);
-
   const navigation = useNavigation<HomeScreenNavigationProps>();
+  const onAuthStateChanged = (user: Auth) => {
+    
+    if (!user) {
+      console.log('User signed out');
+      navigation.navigate('Login')
+      // Navigate to the login screen or perform other actions when the user signs out
+    }
+  };
+  //const navigation = useNavigation<HomeScreenNavigationProps>();
   const signOutAction = async () => {
-    console.log('first+ ' + auth().currentUser)
     try {
         await auth().signOut().then(()=>{
             console.log("User Signed Out Successfully!");
-            navigation.navigate('Login')
+            onAuthStateChanged;
         })
         
         
@@ -76,7 +78,7 @@ const MenuScreen: React.FC<HomeScreenNavigationProps> = ({route}) => {
       {isLoading ? (
         <Text>Loading...</Text>
       ) : data.length > 0 ? (
-        <SafeAreaView>
+        <SafeAreaView style={{height: '100%'}}>
           <View style={styles.headerContainer}>
             <Image source={require('../../Asset/iCon/profile_holder.png')} />
             <View style={styles.headerUserName}>
@@ -86,7 +88,7 @@ const MenuScreen: React.FC<HomeScreenNavigationProps> = ({route}) => {
               </Text>
             </View>
           </View>
-          <ScrollView>
+          <ScrollView style={{flex: 1}}>
             <View style={styles.menuSection}>
               <SetBtnWhiteBG btnName="Plans" iconName="plan_icon" />
               <SetBtnWhiteBG btnName="Services" iconName="plan_icon" />
@@ -113,6 +115,10 @@ const MenuScreen: React.FC<HomeScreenNavigationProps> = ({route}) => {
 
             </View>
           </ScrollView>
+          <View>
+          <BottomNavBar/>
+          </View>
+          
         </SafeAreaView>
       ) : (
         <Text>No data available</Text>
