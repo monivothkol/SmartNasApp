@@ -1,28 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 import {Circle, Svg} from 'react-native-svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserResource, getUsersProfile } from '../store/userActions';
+import { RootState } from '../store/store';
+import ProgressBar from './home_validityProgress';
 
 const SMainBalanceSection = () => {
-    const mainBalance = 10.0;
+  const dispatch = useDispatch()
+  useEffect(() => { 
+    dispatch(getUserResource())
+  },[])
+  const {userResource, loadingResource} : any = useSelector((state: RootState) => state.userData)
+    // const mainBalance = 10;
+    console.log(`reseouce ${loadingResource}`)
+  const mainBalance = parseFloat(userResource[0].mainbalance);
     const mainExpiry = '29.01.24';
-    const initialValidity = 8; // Initial validity
-    const currentValidity = 4; // Current validity
+    const initialValidity = 8; 
+    //const currentValidity = parseFloat(userResource[0].mainvalidity); 
+    const currentValidity = 8;
     const statusDescription = "You're good to go! Enjoy using Smart.";
-  
-    const progressValue = (currentValidity / initialValidity) * 100;; // Change this value as needed
-  
-    // Calculate the coordinates for the circle
+    
+    const progressValue = (currentValidity / initialValidity) * 95;; 
+
     const radius = 45;
     const circumference = 2 * Math.PI * radius;
-    //const strokeDasharray = `${circumference} ${circumference}`;
     const strokeDasharray = `${circumference} ${circumference}`;
-    const strokeDashoffset = (25 / 100) * circumference; // Adjusted for partial ring
-    const progressStrokeDashoffset = (((130 - progressValue) / 125) * circumference);
-  
+    const strokeDashoffset = (25 / 100) * circumference;
+    const progressStrokeDashoffset = (((125 - progressValue) / 125) * circumference);
+   
+    if (!loadingResource) {
+      return <ActivityIndicator />;
+    } else {  
     return (
       <View>
         <View style={styleSheet.mainBalanceSectionBG} />
@@ -52,7 +66,7 @@ const SMainBalanceSection = () => {
               <Circle
                 cx="50"
                 cy="50"
-                r={radius}
+                r={radius} 
                 stroke="green"
                 strokeWidth="7"
                 fill="transparent"
@@ -67,11 +81,12 @@ const SMainBalanceSection = () => {
               
 
             </Svg>
+            {/* <ProgressBar/> */}
             
           </View>
         </View>
       </View>
-    );
+    );}
   };
   export default SMainBalanceSection;
   const styleSheet = StyleSheet.create({

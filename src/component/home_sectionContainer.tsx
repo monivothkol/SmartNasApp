@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 14,
   },
   button: {
     flex: 1,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,16 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUsersProfile } from '../store/userActions';
+import { RootState } from '../store/store';
 
 
 const Header = ({phonenumber, lastname}:{ phonenumber: string, lastname: string }) => {
+
+  const {userProfile, loading} = useSelector((state: RootState) => state.userData);
+  const image = 'https://legacy.reactjs.org/logo-og.png'
+
     return (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <TouchableOpacity style={styleSheet.headerLeft}>
@@ -17,7 +24,7 @@ const Header = ({phonenumber, lastname}:{ phonenumber: string, lastname: string 
           </View>
           <View>
             <Text style={styleSheet.textWhite}>Hello</Text>
-            <Text style={[styleSheet.textWhite, {fontSize: 20}]}>{lastname}</Text>
+            <Text style={[styleSheet.textWhite, {fontSize: 20}]}>{userProfile[0].lastname}</Text>
             <Text style={styleSheet.textWhite}>{phonenumber}</Text>
           </View>
         </TouchableOpacity>

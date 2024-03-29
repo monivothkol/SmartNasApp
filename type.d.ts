@@ -6,7 +6,7 @@ export type HomeStackNavigationParamList = {
   Menu: {number: string};
   History: undefined;
   SmartVIP: undefined;
-  
+  TopUp: undefined
 };
 
 export type HomeScreenNavigationProps = NativeStackScreenProps<
@@ -15,5 +15,6 @@ export type HomeScreenNavigationProps = NativeStackScreenProps<
   'Login',
   'Menu',
   'History',
-  'SmartVIP'
+  'SmartVIP',
+  'TopUp',
 >;

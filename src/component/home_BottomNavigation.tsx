@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   navItem: {
-    fontSize: 17,
+    fontSize: 14,
     flexDirection: 'column',
     backgroundColor: 'transparent',
     color: 'black',

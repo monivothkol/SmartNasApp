@@ -130,7 +130,7 @@ const styleSheet = StyleSheet.create({
   textGreen: {
     textAlign: 'center',
     color: 'green',
-    fontSize: 20,
+    fontSize: 17,
   },
 });
 

@@ -15,76 +15,61 @@ import {HomeScreenNavigationProps} from '../../type';
 import {phonenumberInput} from '../component/login_component';
 import {SetBtnWhiteBG} from '../component/setBTNwithIcon';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import auth from '@react-native-firebase/auth'
-import { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
+import {firebase} from '@react-native-firebase/auth';
 import BottomNavBar from '../component/home_BottomNavigation';
-import { Auth } from 'firebase/auth';
-import { User } from 'firebase/auth';
-
+import {Auth} from 'firebase/auth';
+import {User} from 'firebase/auth';
+import {getUsersProfile} from '../store/userActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../store/store';
 
 const MenuScreen: React.FC<HomeScreenNavigationProps> = ({route}) => {
-  const {number} = route.params;
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([] as any[]);
-  const getUser = async () => {
-    try {
-      const response = await fetch(
-        `https://vothsmartdb.onrender.com/smartnas_db/user_profile/${number}`,
-      );
-      const json = await response.json();
-      console.log('Fetched data:', json);
-      setData(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
-    getUser();
+    // const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
+    auth().onAuthStateChanged(onAuthStateChanged)
+    // return () => {
+    //   unsubscribe();
+    // };
   }, []);
-  useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
-    return () => {
-      unsubscribe(); 
-    };
-  }, []);
+  const dispatch = useDispatch();
+  const {userProfile, loading} = useSelector((state: RootState) => state.userData);
   const navigation = useNavigation<HomeScreenNavigationProps>();
   const onAuthStateChanged = (user: Auth) => {
-    
     if (!user) {
       console.log('User signed out');
-      navigation.navigate('Login')
+      navigation.navigate('Login');
       // Navigate to the login screen or perform other actions when the user signs out
     }
   };
   //const navigation = useNavigation<HomeScreenNavigationProps>();
   const signOutAction = async () => {
     try {
-        await auth().signOut().then(()=>{
-            console.log("User Signed Out Successfully!");
-            onAuthStateChanged;
-        })
-        
-        
-      } catch (error) {
-        console.log(error);
-      }
-    
-  }
+      await auth()
+        .signOut()
+        .then(() => {
+          console.log('User Signed Out Successfully!');
+          onAuthStateChanged;
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
+ 
   return (
     <View>
-      {isLoading ? (
+      {!loading ? (
         <Text>Loading...</Text>
-      ) : data.length > 0 ? (
+      ) : userProfile.length > 0 ? (
         <SafeAreaView style={{height: '100%'}}>
           <View style={styles.headerContainer}>
             <Image source={require('../../Asset/iCon/profile_holder.png')} />
             <View style={styles.headerUserName}>
-              <Text style={styles.headerName}>{data[0].lastname}</Text>
-              <Text style={styles.headerPhonenumber}>0
-                {data[0].phonenumber}
+              <Text style={styles.headerName}>{userProfile[0].lastname}</Text>
+              <Text style={styles.headerPhonenumber}>
+                {userProfile[0].phonenumber}
               </Text>
             </View>
           </View>
@@ -112,13 +97,11 @@ const MenuScreen: React.FC<HomeScreenNavigationProps> = ({route}) => {
                 iconName="signout_icon"
                 onPress={signOutAction}
               />
-
             </View>
           </ScrollView>
           <View>
-          <BottomNavBar/>
+            <BottomNavBar />
           </View>
-          
         </SafeAreaView>
       ) : (
         <Text>No data available</Text>
